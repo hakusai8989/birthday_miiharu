@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday!</title>
+    <style>
+      /* 全体の設定 */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffe6e6; /* 背景色（後で画像に変えられます） */
+        font-family: "Yu Gothic", "Meiryo", sans-serif;
+        overflow: hidden; /* スクロールさせない */
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end; /* 下揃え */
+      }
+
+      /* ゲーム画面の枠（スマホサイズを意識） */
+      #game-screen {
+        position: relative;
+        width: 100%;
+        max-width: 600px; /* PCで見ても横に広がりすぎないように */
+        height: 100%;
+        background-image: url("background.jpg"); /* ★背景画像はここで指定 */
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* キャラクター（親友）の立ち絵 */
+      #character-img {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%; /* 画面の8割くらいの大きさ */
+        max-width: 400px;
+        display: block;
+        /* 画像がない時のダミー（画像を入れたら消してOK） */
+        height: 60%;
+        background-color: #ffcccc;
+        border-radius: 20px 20px 0 0;
+      }
+
+      /* 会話ウィンドウ（セリフ枠） */
+      #message-box {
+        position: absolute;
+        bottom: 20px;
+        left: 5%;
+        width: 90%;
+        height: 150px;
+        background: rgba(0, 0, 0, 0.8); /* 半透明の黒 */
+        border: 2px solid #fff;
+        border-radius: 10px;
+        box-sizing: border-box;
+        padding: 20px;
+        color: white;
+        cursor: pointer; /* クリックできるよ感を出す */
+        z-index: 10;
+      }
+
+      /* 名前表示欄 */
+      #name-label {
+        position: absolute;
+        top: -15px;
+        left: 10px;
+        background: #ff69b4; /* ピンク */
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      /* セリフ本文 */
+      #text-content {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      /* 「次へ」の三角マーク点滅 */
+      #next-cursor {
+        position: absolute;
+        bottom: 10px;
+        right: 15px;
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-screen">
+      <div id="character-img"></div>
+      <div id="message-box" onclick="nextScenario()">
+        <div id="name-label">親友ちゃん</div>
+        <div id="text-content">（クリックしてスタート）</div>
+        <div id="next-cursor">▼</div>
+      </div>
+    </div>
+
+    <script>
+      // ★シナリオデータ（audio: 'ファイル名' を追加）
+      const scenario = [
+        {
+          name: "親友ちゃん",
+          text: "あれ？ どうしたの急に呼び出して。",
+          audio: "", // 音声なしなら空欄か省略でOK
+        },
+        {
+          name: "俺", // あなたの名前
+          text: "誕生日おめでとう。これ、受け取ってくれ。",
+          audio: "voice1.mp3", // ★ここでファイル名を指定！
+        },
+        {
+          name: "親友ちゃん",
+          text: "えっ、このサイト…私のために作ってくれたの？",
+          audio: "",
+        },
+        {
+          name: "俺",
+          text: "日頃の感謝を込めて作ったんだ。楽しんでくれると嬉しい。",
+          audio: "voice2.mp3", // ★別の音声ファイル
+        },
+        {
+          name: "親友ちゃん",
+          text: "すごーーい！！ めっちゃ嬉しい！！！",
+          // audioを指定しなければ前の音声は止まらず、そのまま無音で進行します
+        },
+      ];
+
+      let currentIndex = 0;
+      let currentAudio = null; // 再生中の音声を管理する変数
+
+      const nameLabel = document.getElementById("name-label");
+      const textContent = document.getElementById("text-content");
+      // const charImg = document.getElementById('character-img'); // 画像切り替え用
+
+      // 初期表示（最初のクリック待ち）
+      function nextScenario() {
+        if (currentIndex < scenario.length) {
+          const item = scenario[currentIndex];
+
+          // 1. 文字と名前の更新
+          nameLabel.innerText = item.name;
+          textContent.innerText = item.text;
+          // if(item.img) charImg.src = item.img; // 画像切り替え
+
+          // 2. 音声の再生処理
+          if (item.audio) {
+            // もし前の音声が流れていたら止める（セリフ被り防止）
+            if (currentAudio) {
+              currentAudio.pause();
+              currentAudio.currentTime = 0;
+            }
+            // 新しい音声をセットして再生
+            currentAudio = new Audio(item.audio);
+            currentAudio.play();
+          }
+
+          currentIndex++;
+        } else {
+          // 終了時
+          textContent.innerHTML =
+            "Fin.<br><small>（画面をリロードすると最初に戻ります）</small>";
+          document.getElementById("next-cursor").style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
