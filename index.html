@@ -103,7 +103,7 @@
     <div id="game-screen">
       <div id="character-img"></div>
       <div id="message-box" onclick="nextScenario()">
-        <div id="name-label">親友ちゃん</div>
+        <div id="name-label"はる</div>
         <div id="text-content">（クリックしてスタート）</div>
         <div id="next-cursor">▼</div>
       </div>
@@ -113,17 +113,17 @@
       // ★シナリオデータ（audio: 'ファイル名' を追加）
       const scenario = [
         {
-          name: "親友ちゃん",
+          name: "はる",
           text: "あれ？ どうしたの急に呼び出して。",
           audio: "", // 音声なしなら空欄か省略でOK
         },
         {
           name: "俺", // あなたの名前
-          text: "誕生日おめでとう。これ、受け取ってくれ。",
+          text: "誕生日おめでとう！！！！",
           audio: "voice1.mp3", // ★ここでファイル名を指定！
         },
         {
-          name: "親友ちゃん",
+          name: "はる",
           text: "えっ、このサイト…私のために作ってくれたの？",
           audio: "",
         },
@@ -133,7 +133,7 @@
           audio: "voice2.mp3", // ★別の音声ファイル
         },
         {
-          name: "親友ちゃん",
+          name: "はる",
           text: "すごーーい！！ めっちゃ嬉しい！！！",
           // audioを指定しなければ前の音声は止まらず、そのまま無音で進行します
         },
