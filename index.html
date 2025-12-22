@@ -97,6 +97,7 @@
           opacity: 0;
         }
       }
+
       /* --- ここから追加 --- */
 
 /* アルバム画面（最初は隠しておく） */
@@ -142,7 +143,9 @@
     font-weight: bold;
     margin: 20px 0;
 }
+
     </style>
+
   </head>
   <body>
     <div id="game-screen">
@@ -153,6 +156,21 @@
         <div id="next-cursor">▼</div>
       </div>
     </div>
+
+    <div id="album-screen">
+    <div class="main-content">
+        <img src="best-photo.jpg" alt="最高の瞬間">
+    </div>
+
+    <div class="final-message">Happy Birthday!!</div>
+
+    <div class="gallery">
+        <img src="photo1.jpg" alt="思い出1">
+        <img src="photo2.jpg" alt="思い出2">
+        <img src="photo3.jpg" alt="思い出3">
+        <img src="photo4.jpg" alt="思い出4">
+    </div>
+</div>
 
     <script>
       // ★シナリオデータ（audio: 'ファイル名' を追加）
@@ -215,13 +233,14 @@
 
           currentIndex++;
         } else {
-          // 終了時
-          textContent.innerHTML =
-            "Fin.<br><small>（画面をリロードすると最初に戻ります）</small>";
-          document.getElementById("next-cursor").style.display = "none";
+          /// ゲーム画面を隠して、アルバム画面を出す！
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('album-screen').style.display = 'block';
+    
+    // もしBGMを止めたければこれを入れる
+    if(currentAudio) currentAudio.pause();
         }
       }
     </script>
   </body>
 </html>
-
