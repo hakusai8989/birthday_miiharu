@@ -257,12 +257,13 @@
         justify-content: center;
       }
 
-      /* --- CSS修正：動画をデカく、正しい比率にする --- */
+      /* --- CSS修正：動画をスマホ画面に収める設定 --- */
       .video-box {
-        width: 100%; /* 横幅いっぱい！ */
-        max-width: 800px; /* PCでももっと大きく表示（元は600pxでした） */
+        /* ★ここが重要：100%だと枠線の分ではみ出すので、95%にする */
+        width: 95%;
+        max-width: 800px;
 
-        /* ★ここが魔法の呪文（比率を16:9に固定） */
+        /* ★スマホでも強制的に「横長テレビ（16:9）」の形にする */
         aspect-ratio: 16 / 9;
 
         border: 4px solid #ff69b4;
@@ -270,12 +271,15 @@
         overflow: hidden;
         margin-bottom: 20px;
         background: black;
-        position: relative; /* 中身をフィットさせるために必要 */
+        position: relative;
+
+        /* 枠線を幅に含める設定（念のため） */
+        box-sizing: border-box;
       }
 
       .video-box iframe {
         width: 100%;
-        height: 100%; /* 箱のサイズに合わせて目一杯広げる */
+        height: 100%;
         display: block;
       }
     </style>
@@ -454,15 +458,23 @@
         if (currentAudio) currentAudio.pause();
       }
 
-      // 動画から戻る
+      // 動画から戻る（安全装置付き）
       function backToMenuFromVideo() {
-        // iframeの動画を止めるため、srcを入れ直す
+        // 動画プレイヤーを探す
         const iframe = document.getElementById("drive-video");
-        const tempSrc = iframe.src;
-        iframe.src = tempSrc;
 
-        document.getElementById("video-screen").style.display = "none";
-        document.getElementById("home-screen").style.display = "flex";
+        // もしプレイヤーが見つかったら、動画を止める（リロード）
+        if (iframe) {
+          const tempSrc = iframe.src;
+          iframe.src = tempSrc;
+        }
+
+        // ★ここが重要：エラーが出ても、画面切り替えだけは絶対に実行する！
+        const videoScreen = document.getElementById("video-screen");
+        const homeScreen = document.getElementById("home-screen");
+
+        if (videoScreen) videoScreen.style.display = "none";
+        if (homeScreen) homeScreen.style.display = "flex";
       }
     </script>
   </body>
