@@ -96,17 +96,21 @@
         width: 100%;
       }
 
-      /* ゲーム画面の枠（スマホサイズを意識） */
-      #game-screen {
-        position: relative;
-        width: 100%;
-        max-width: 600px; /* PCで見ても横に広がりすぎないように */
-        height: 100%;
-        background-image: url("background.jpg"); /* ★背景画像はここで指定 */
-        background-size: cover;
-        background-position: center;
-      }
-
+      /* --- CSS修正：背景画像を消す --- */
+#game-screen {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  
+  /* ★この行を削除する！ */
+  /* background-image: url("background.jpg"); */
+  /* background-size: cover; */
+  /* background-position: center; */
+  
+  /* 代わりに背景色だけ指定しておく */
+  background-color: #ffe6e6; 
+}
       /* キャラクター（俺）の立ち絵 */
       #character-img {
         position: absolute;
@@ -327,7 +331,33 @@
         max-width: 600px;
       }
 
-      .gallery img
+      /* --- CSS修正箇所 --- */
+
+/* 写真ギャラリーの枠 */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* gap: 10px; ← 元の隙間（ちょっと狭いかも） */
+  gap: 15px;    /* ★隙間を少し広げて見やすくします */
+  padding: 10px;
+}
+
+/* 写真のサイズ設定 */
+.gallery img {
+  /* width: 45%; ← これを消して、下の30%に変える */
+  
+  /* ★スマホで3列になるサイズ */
+  width: 30%;
+  
+  /* 【おすすめ】PCで見た時に巨大になりすぎないように制限をかける */
+  max-width: 150px; 
+  
+  height: auto; /* 念のため高さは自動調整に */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover; /* 正方形っぽく切り抜いて揃えるなら追加（任意） */
+}
 
       /* メッセージ */
       .final-message {
@@ -384,15 +414,13 @@
       </div>
     </div>
 
-    <div id="album-screen">
-      <div class="main-content">
-        <img src="best-photo.jpg" alt="最高の瞬間" />
-      </div>
-
-      <div class="final-message">Happy Birthday!!</div>
-
-      <div class="gallery">
+<div id="album-screen">
   
+  <div class="final-message">Happy Birthday!!</div>
+
+  <div class="gallery">
+    </div>
+</div>
   <div class="photo-card">
     <img src="photo1.jpg" alt="思い出1">
     <p class="photo-name">小学生-卒業編-</p> </div>
@@ -418,7 +446,7 @@
   
 <div class="video-box">
   
-  <iframe src="https://drive.google.com/file/d/1GsA50SaZcDRb0N_JncIYfxLIq1xDTl7Z/view?usp=sharing" width="100" height="315" allow="autoplay"></iframe>
+  <iframe src="https://drive.google.com/file/d/1GsA50SaZcDRb0N_JnclYfxLlq1xDTI7Z/preview" width="100%" height="315" allow="autoplay"></iframe>
 
 </div>
 
