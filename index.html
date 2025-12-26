@@ -244,18 +244,26 @@
         justify-content: center;
       }
 
+      /* --- CSS修正：動画をデカく、正しい比率にする --- */
       .video-box {
-        width: 90%;
-        max-width: 600px;
+        width: 100%; /* 横幅いっぱい！ */
+        max-width: 800px; /* PCでももっと大きく表示（元は600pxでした） */
+
+        /* ★ここが魔法の呪文（比率を16:9に固定） */
+        aspect-ratio: 16 / 9;
+
         border: 4px solid #ff69b4;
         border-radius: 10px;
         overflow: hidden;
         margin-bottom: 20px;
         background: black;
+        position: relative; /* 中身をフィットさせるために必要 */
       }
 
       .video-box iframe {
-        display: block; /* 隙間対策 */
+        width: 100%;
+        height: 100%; /* 箱のサイズに合わせて目一杯広げる */
+        display: block;
       }
     </style>
   </head>
