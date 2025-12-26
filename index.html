@@ -5,22 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Happy Birthday!</title>
     <style>
-      /* 全体の設定 */
+      /* --- 全体の設定 --- */
       body {
         margin: 0;
         padding: 0;
-        background-color: #ffe6e6; /* 背景色（後で画像に変えられます） */
+        background-color: #ffe6e6;
         font-family: "Yu Gothic", "Meiryo", sans-serif;
-        overflow: hidden; /* スクロールさせない */
+        overflow: hidden;
         height: 100vh;
         display: flex;
         justify-content: center;
-        align-items: flex-end; /* 下揃え */
+        align-items: flex-end;
       }
 
-      /* --- CSS追加・修正 --- */
+      /* --- ゲーム画面 --- */
+      #game-screen {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        height: 100%;
+        background-color: #ffe6e6;
+      }
 
-      /* ★スキップボタンのデザイン */
+      /* 立ち絵 */
+      #character-img {
+        position: absolute;
+        bottom: -5%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: none;
+        max-height: none;
+        display: block;
+        background-color: transparent;
+        pointer-events: none;
+      }
+
+      /* スキップボタン */
       #skip-btn {
         position: absolute;
         top: 20px;
@@ -32,153 +53,47 @@
         padding: 5px 15px;
         font-size: 14px;
         cursor: pointer;
-        z-index: 50; /* 一番手前に */
-      }
-      #skip-btn:hover {
-        background: rgba(0, 0, 0, 0.8);
+        z-index: 50;
       }
 
-      /* ★ホーム画面（全体を覆うオーバーレイ） */
-      #home-screen {
-        display: none; /* 最初は隠す */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6); /* 背景を少し暗くして文字を見やすく */
-        z-index: 20;
-
-        /* 中身をど真ん中に配置 */
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-      }
-
-      /* タイトル等のデザイン */
-      .home-title {
-        font-size: 32px;
-        color: #ff69b4;
-        text-shadow: 2px 2px 0 #fff;
-        margin: 0;
-      }
-      .home-subtitle {
-        font-size: 14px;
-        margin-top: 5px;
-        margin-bottom: 20px;
-      }
-
-      /* ボタンリストの並び */
-      .menu-list {
-        width: 80%;
-        max-width: 320px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-      .menu-label {
-        margin: 0;
-        font-size: 14px;
-        color: #ffccff;
-      }
-
-      /* ボイスボタン（ちょっと小さめでおしゃれに） */
-      .voice-btn {
-        background: #4caf50;
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-      }
-
-      /* --- CSS修正：背景画像を消す --- */
-#game-screen {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  height: 100%;
-  
-  /* ★この行を削除する！ */
-  /* background-image: url("background.jpg"); */
-  /* background-size: cover; */
-  /* background-position: center; */
-  
-  /* 代わりに背景色だけ指定しておく */
-  background-color: #ffe6e6; 
-}
-      /* キャラクター（俺）の立ち絵 */
-      #character-img {
-        position: absolute;
-        /* 下の位置調整：もし顔が上に行き過ぎなら -10% とかを -20% に変えてみて */
-        bottom: -5%;
-        left: 50%;
-        transform: translateX(-50%);
-
-        /* --- サイズを無理やりデカくする設定 --- */
-
-        /* 横幅：画面幅の1.5倍くらいに設定（余白分を無視して拡大） */
-        width: 80%;
-
-        /* 最大幅の制限を解除（これがないと600pxで止まっちゃう） */
-        max-width: none;
-
-        /* 高さの制限も解除 */
-        max-height: none;
-
-        /* 背景などの設定はそのまま */
-        display: block;
-        background-color: transparent;
-        pointer-events: none; /* 画像が邪魔でボタン押せないのを防ぐ */
-      }
-
-      /* 会話ウィンドウ（セリフ枠） */
-      /* 会話ウィンドウ（高さを自動にして、ボタンが入る隙間を作る） */
+      /* 会話ウィンドウ */
       #message-box {
         position: absolute;
         bottom: 20px;
         left: 5%;
         width: 90%;
-        height: auto; /* ★高さを自動調整に変更 */
-        min-height: 150px; /* 最低でもこの高さは確保 */
+        height: auto;
+        min-height: 150px;
         background: rgba(0, 0, 0, 0.8);
         border: 2px solid #fff;
         border-radius: 10px;
         box-sizing: border-box;
-        padding: 30px 20px 20px; /* 上の余白を少し増やしました */
+        padding: 30px 20px 20px;
         color: white;
         cursor: pointer;
         z-index: 10;
-
-        /* Flexboxで中身を縦並びにする設定 */
         display: flex;
         flex-direction: column;
-        justify-content: center; /* 上下中央寄せ */
-        gap: 15px; /* テキストとボタンの間隔 */
+        justify-content: center;
+        gap: 15px;
       }
-      /* 名前表示欄 */
+
       #name-label {
         position: absolute;
         top: -15px;
         left: 10px;
-        background: #ff69b4; /* ピンク */
+        background: #ff69b4;
         padding: 5px 15px;
         border-radius: 15px;
         font-weight: bold;
         font-size: 14px;
       }
 
-      /* セリフ本文 */
       #text-content {
         font-size: 16px;
         line-height: 1.6;
       }
 
-      /* 「次へ」の三角マーク点滅 */
       #next-cursor {
         position: absolute;
         bottom: 10px;
@@ -197,181 +112,156 @@
         }
       }
 
-      /* クリア後のメニューボタン枠（絶対配置をやめて、自然に並べる） */
-      #end-menu {
-        display: none; /* 最初は隠す */
-        position: static; /* ★ここ重要：自由に配置させる */
-        transform: none; /* 中央配置の計算を解除 */
-        text-align: center;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      /* ついでに：キャラ画像の背景色がピンクになって透過されない問題を修正 */
-      #character-img {
-        /* ...他の設定はそのまま... */
-        background-color: transparent; /* ★ここを #ffcccc から transparent に変更 */
-      }
-
-      /* ボタンのデザイン */
-      .menu-btn {
-        display: block;
-        width: 80%;
-        max-width: 300px;
-        margin: 15px auto;
-        padding: 15px;
-        background: #ff69b4; /* ピンク */
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        border: 2px solid #fff;
-        border-radius: 30px;
-        cursor: pointer;
-        text-decoration: none; /* リンクの下線を消す */
-        box-shadow: 0 4px 0 #db4c97; /* 立体感 */
-        transition: transform 0.1s;
-      }
-
-      .menu-btn:active {
-        transform: translateY(4px); /* 押した時に凹む */
-        box-shadow: none;
-      }
-
-      /* --- ここから追加 --- */
-      /* クリア後のメニューボタン枠 */
-      #end-menu {
-        display: none; /* 最初は隠す */
+      /* --- ホーム画面（メニュー） --- */
+      #home-screen {
+        display: none;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        width: 100%;
-        z-index: 20;
-      }
-
-      /* ボタンのデザイン */
-      .menu-btn {
-        display: block;
-        width: 80%;
-        max-width: 300px;
-        margin: 15px auto;
-        padding: 15px;
-        background: #ff69b4; /* ピンク */
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        border: 2px solid #fff;
-        border-radius: 30px;
-        cursor: pointer;
-        text-decoration: none; /* リンクの下線を消す */
-        box-shadow: 0 4px 0 #db4c97; /* 立体感 */
-        transition: transform 0.1s;
-      }
-
-      .menu-btn:active {
-        transform: translateY(4px); /* 押した時に凹む */
-        box-shadow: none;
-      }
-
-      /* アルバム画面（最初は隠しておく） */
-      #album-screen {
-        display: none; /* ここが重要 */
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        overflow-y: auto; /* スクロールできるようにする */
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 20;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      .home-title {
+        font-size: 32px;
+        color: #ff69b4;
+        text-shadow: 2px 2px 0 #fff;
+        margin: 0;
+      }
+      .home-subtitle {
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+      }
+      .menu-list {
+        width: 80%;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .menu-label {
+        margin: 0;
+        font-size: 14px;
+        color: #ffccff;
+      }
+
+      /* ボタン共通 */
+      .menu-btn,
+      .voice-btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      .voice-btn {
+        background: #4caf50;
+      }
+      .menu-btn {
+        background: #ff69b4;
+        border: 2px solid #fff;
+      }
+      .menu-btn:active,
+      .voice-btn:active {
+        transform: translateY(2px);
+      }
+
+      /* --- アルバム画面 --- */
+      #album-screen {
+        display: none;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
         background-color: #fff0f5;
         text-align: center;
         padding-bottom: 50px;
       }
 
-
-      /* --- CSS追加：動画画面のデザイン --- */
-#video-screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9); /* 背景は黒っぽく */
-  z-index: 30;
-  text-align: center;
-  
-  /* 中身を中央揃え */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.video-box {
-  width: 90%;
-  max-width: 600px;
-  border: 4px solid #ff69b4; /* ピンクの枠線 */
-  border-radius: 10px;
-  overflow: hidden; /* 角丸からはみ出さないように */
-  margin-bottom: 20px;
-  background: black;
-}
-
-.video-box video {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-      /* メインの動画・画像の枠 */
-      .main-content {
-        width: 100%;
-        background-color: #000;
-        margin-bottom: 20px;
-      }
-      .main-content video,
-      .main-content img {
-        width: 100%;
-        max-width: 600px;
-      }
-
-      /* --- CSS修正箇所 --- */
-
-/* 写真ギャラリーの枠 */
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  /* gap: 10px; ← 元の隙間（ちょっと狭いかも） */
-  gap: 15px;    /* ★隙間を少し広げて見やすくします */
-  padding: 10px;
-}
-
-/* 写真のサイズ設定 */
-.gallery img {
-  /* width: 45%; ← これを消して、下の30%に変える */
-  
-  /* ★スマホで3列になるサイズ */
-  width: 30%;
-  
-  /* 【おすすめ】PCで見た時に巨大になりすぎないように制限をかける */
-  max-width: 150px; 
-  
-  height: auto; /* 念のため高さは自動調整に */
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  object-fit: cover; /* 正方形っぽく切り抜いて揃えるなら追加（任意） */
-}
-
-      /* メッセージ */
       .final-message {
         font-size: 20px;
         color: #ff69b4;
         font-weight: bold;
         margin: 20px 0;
       }
+
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 10px;
+      }
+
+      .photo-card {
+        width: 45%;
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+      }
+
+      .photo-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        display: block;
+      }
+
+      .photo-card .photo-name {
+        margin: 10px 0 0 0;
+        font-size: 12px;
+        font-weight: bold;
+        color: #ff69b4;
+      }
+
+      /* --- 動画画面 --- */
+      #video-screen {
+        display: none; /* 初期状態は非表示 */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 30;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .video-box {
+        width: 90%;
+        max-width: 600px;
+        border: 4px solid #ff69b4;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        background: black;
+      }
+
+      .video-box iframe {
+        display: block; /* 隙間対策 */
+      }
     </style>
   </head>
   <body>
     <div id="game-screen">
       <img id="character-img" src="mee-removebg-preview.png" alt="立ち絵" />
-
       <button id="skip-btn" onclick="skipToMenu()">SKIP >></button>
 
       <div id="message-box" onclick="nextScenario()">
@@ -386,11 +276,9 @@
 
         <div class="menu-list">
           <p class="menu-label">🎵 スペシャルボイス</p>
-
           <button class="voice-btn" onclick="playAudio('voice1.m4a')">
             ▶ モノマネ①（〇〇）
           </button>
-
           <button class="voice-btn" onclick="playAudio('voice2.m4a')">
             ▶ モノマネ②（××）
           </button>
@@ -406,67 +294,66 @@
           <button class="menu-btn" onclick="showAlbum()">
             📖 思い出アルバムを見る
           </button>
-
-  <button class="menu-btn" onclick="showVideo()">
-  🎬 スペシャル動画を見る
-</button>
+          <button class="menu-btn" onclick="showVideo()">
+            🎬 スペシャル動画を見る
+          </button>
         </div>
       </div>
     </div>
 
-<div id="album-screen">
-  
-  <div class="final-message">Happy Birthday!!</div>
+    <div id="album-screen">
+      <div class="final-message">Happy Birthday!!</div>
 
-  <div class="gallery">
+      <button
+        class="menu-btn"
+        onclick="location.reload()"
+        style="width: 200px; margin: 0 auto 20px"
+      >
+        ↩ メニューに戻る
+      </button>
+
+      <div class="gallery">
+        <div class="photo-card">
+          <img src="photo1.jpg" alt="思い出1" />
+          <p class="photo-name">小学生-卒業編-</p>
+        </div>
+        <div class="photo-card">
+          <img src="photo2.jpg" alt="思い出2" />
+          <p class="photo-name">中学-卒業編-</p>
+        </div>
+        <div class="photo-card">
+          <img src="photo3.jpg" alt="思い出3" />
+          <p class="photo-name">お気に入り一枚</p>
+        </div>
+        <div class="photo-card">
+          <img src="photo4.jpg" alt="思い出4" />
+          <p class="photo-name">最近のクリスマス💛</p>
+        </div>
+      </div>
     </div>
-</div>
-  <div class="photo-card">
-    <img src="photo1.jpg" alt="思い出1">
-    <p class="photo-name">小学生-卒業編-</p> </div>
 
-  <div class="photo-card">
-    <img src="photo2.jpg" alt="思い出2">
-    <p class="photo-name">中学-卒業編-</p>
-  </div>
+    <div id="video-screen">
+      <h2 style="color: #ff69b4; margin-top: 30px">🎬 スペシャルムービー</h2>
+      <div class="video-box">
+        <iframe
+          id="drive-video"
+          src="https://drive.google.com/file/d/1GsA50SaZcDRb0N_JnclYfxLlq1xDTI7Z/preview"
+          width="100%"
+          height="315"
+          allow="autoplay"
+        >
+        </iframe>
+      </div>
+      <button class="menu-btn" onclick="backToMenuFromVideo()">
+        ↩ メニューに戻る
+      </button>
+    </div>
 
-  <div class="photo-card">
-    <img src="photo3.jpg" alt="思い出3">
-    <p class="photo-name">お気に入り一枚</p>
-  </div>
-  
-  <div class="photo-card">
-    <img src="photo4.jpg" alt="思い出4">
-    <p class="photo-name">最近のクリスマス💛</p>
-  </div>
-
-</div>
-<div id="video-screen" style="display: none;">
-  <h2 style="color: #ff69b4; margin-top: 30px;">🎬 スペシャルムービー</h2>
-  
-<div class="video-box">
-  
-  <iframe src="https://drive.google.com/file/d/1GsA50SaZcDRb0N_JnclYfxLlq1xDTI7Z/preview" width="100%" height="315" allow="autoplay"></iframe>
-
-</div>
-
-  <button class="menu-btn" onclick="backToMenuFromVideo()">
-    ↩ メニューに戻る
-  </button>
-</div>
     <script>
-      // ★シナリオデータ（audio: 'ファイル名' を追加）
+      // ★シナリオデータ
       const scenario = [
-        {
-          name: "はる",
-          text: "あれ？ どうしたの急に呼び出して。",
-          audio: "", // 音声なしなら空欄か省略でOK
-        },
-        {
-          name: "俺", // あなたの名前
-          text: "誕生日おめでとう！！！！",
-          audio: "voice1.m4a", // ★ここでファイル名を指定！
-        },
+        { name: "はる", text: "あれ？ どうしたの急に呼び出して。", audio: "" },
+        { name: "俺", text: "誕生日おめでとう！！！！", audio: "voice1.m4a" },
         {
           name: "はる",
           text: "えっ、このサイト…私のために作ってくれたの？",
@@ -475,142 +362,90 @@
         {
           name: "俺",
           text: "日頃の感謝を込めて作ったんだ。楽しんでくれると嬉しい。",
-          audio: "voice2.m4a", // ★別の音声ファイル
+          audio: "voice2.m4a",
         },
         {
           name: "はる",
           text: "すごーーい！！ めっちゃ嬉しい！！！",
-          // audioを指定しなければ前の音声は止まらず、そのまま無音で進行します
+          audio: "",
         },
       ];
 
       let currentIndex = 0;
-      let currentAudio = null; // 再生中の音声を管理する変数
+      let currentAudio = null;
 
       const nameLabel = document.getElementById("name-label");
       const textContent = document.getElementById("text-content");
-      // const charImg = document.getElementById('character-img'); // 画像切り替え用
 
-      // 初期表示（最初のクリック待ち）
+      // シナリオ進行
       function nextScenario() {
         if (currentIndex < scenario.length) {
           const item = scenario[currentIndex];
-
-          // 1. 文字と名前の更新
           nameLabel.innerText = item.name;
           textContent.innerText = item.text;
-          // if(item.img) charImg.src = item.img; // 画像切り替え
 
-          // 2. 音声の再生処理
+          // 音声再生
           if (item.audio) {
-            // もし前の音声が流れていたら止める（セリフ被り防止）
             if (currentAudio) {
               currentAudio.pause();
               currentAudio.currentTime = 0;
             }
-            // 新しい音声をセットして再生
             currentAudio = new Audio(item.audio);
             currentAudio.play();
           }
-
           currentIndex++;
         } else {
-          // 1. シナリオが終わったら、まずボタンを表示する！
-          textContent.innerHTML =
-            "Happy Birthday!!<br>（特典が解放されたよ！）";
-          document.getElementById("next-cursor").style.display = "none"; // ▼を消す
-          document.getElementById("end-menu").style.display = "block"; // ボタンを出す
-        }
-      } // ← nextScenarioの閉じカッコ
-
-      // ★新しく追加する関数：ボタンを押した時の動き
-      function showAlbum() {
-        // ゲーム画面を消して、アルバム画面を出す
-        document.getElementById("game-screen").style.display = "none";
-        document.getElementById("album-screen").style.display = "block";
-
-        // BGMを止める
-        if (currentAudio) currentAudio.pause();
-      }
-      // --- JavaScriptの追加箇所 ---
-
-      // ★追加：ボイスを聞くボタンの処理
-      function playSpecialVoice() {
-        // 再生したい音声ファイル名を指定
-        const voiceFile = "voice_special.ma4";
-
-        // 既存の音声が流れていたら止める
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-        }
-
-        // 再生
-        currentAudio = new Audio(voiceFile);
-        currentAudio.play();
-
-        alert("スペシャルボイスを再生します！（音声ファイルをセットしてね）");
-      }
-
-      // --- JavaScript修正 ---
-
-      // 1. nextScenario関数の一部を書き換え
-      // （else の部分だけ書き換えてください）
-      function nextScenario() {
-        if (currentIndex < scenario.length) {
-          // ...（ここはそのまま）...
-          const item = scenario[currentIndex];
-          nameLabel.innerText = item.name;
-          textContent.innerText = item.text;
-          if (item.audio) {
-            /* 音声再生処理 */
-          }
-          currentIndex++;
-        } else {
-          // ★ここが変わった！シナリオ終了時の処理
+          // シナリオ終了
           skipToMenu();
         }
       }
 
-      // 2. 新しい関数を追加：メニュー画面へスキップする機能
+      // メニューへスキップ
       function skipToMenu() {
-        // 会話ウィンドウとスキップボタンを消す
         document.getElementById("message-box").style.display = "none";
         document.getElementById("skip-btn").style.display = "none";
+        document.getElementById("home-screen").style.display = "flex";
 
-        // ホーム画面を出す
-        const homeScreen = document.getElementById("home-screen");
-        homeScreen.style.display = "flex"; // flexboxとして表示
-
-        // もし再生中のボイスがあれば止める
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
         }
       }
 
-      // --- JS追加：動画画面の操作 ---
+      // ボイス再生（モノマネボタン用）
+      function playAudio(fileName) {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        currentAudio = new Audio(fileName);
+        currentAudio.play();
+      }
 
-// 動画画面を表示する
-function showVideo() {
-  // ホーム画面を隠して、動画画面を出す
-  document.getElementById("home-screen").style.display = "none";
-  document.getElementById("video-screen").style.display = "flex"; // CSSでflexにしてるので
-}
+      // アルバム表示
+      function showAlbum() {
+        document.getElementById("game-screen").style.display = "none";
+        document.getElementById("album-screen").style.display = "block";
+        if (currentAudio) currentAudio.pause();
+      }
 
-// 動画画面からメニューに戻る
-function backToMenuFromVideo() {
-  const video = document.getElementById("my-video");
-  
-  // 動画を一時停止して、最初に戻す
-  video.pause();
-  video.currentTime = 0;
+      // 動画表示
+      function showVideo() {
+        document.getElementById("home-screen").style.display = "none";
+        document.getElementById("video-screen").style.display = "flex";
+        if (currentAudio) currentAudio.pause();
+      }
 
-  // 画面を切り替え
-  document.getElementById("video-screen").style.display = "none";
-  document.getElementById("home-screen").style.display = "flex";
-}
-      
+      // 動画から戻る
+      function backToMenuFromVideo() {
+        // iframeの動画を止めるため、srcを入れ直す
+        const iframe = document.getElementById("drive-video");
+        const tempSrc = iframe.src;
+        iframe.src = tempSrc;
+
+        document.getElementById("video-screen").style.display = "none";
+        document.getElementById("home-screen").style.display = "flex";
+      }
     </script>
   </body>
 </html>
