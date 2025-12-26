@@ -31,21 +31,28 @@
 
       /* キャラクター（俺）の立ち絵 */
       #character-img {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 95%; /* 画面の8割くらいの大きさ */
-        max-width: 600px;
-        display: block;
-        /* 画像がない時のダミー（画像を入れたら消してOK） */
-        height: auto;
-        max-height: 85vh;
-        object-fit: contain;
-        background-color: transparent;
-        border-radius: 20px 20px 0 0;
-        /*mix-blend-mode: screen;*/
-      }
+  position: absolute;
+  /* 下の位置調整：もし顔が上に行き過ぎなら -10% とかを -20% に変えてみて */
+  bottom: -5%; 
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* --- サイズを無理やりデカくする設定 --- */
+  
+  /* 横幅：画面幅の1.5倍くらいに設定（余白分を無視して拡大） */
+  width: 150%;
+  
+  /* 最大幅の制限を解除（これがないと600pxで止まっちゃう） */
+  max-width: none; 
+  
+  /* 高さの制限も解除 */
+  max-height: none;
+  
+  /* 背景などの設定はそのまま */
+  display: block;
+  background-color: transparent;
+  pointer-events: none; /* 画像が邪魔でボタン押せないのを防ぐ */
+}
 
       /* 会話ウィンドウ（セリフ枠） */
       /* 会話ウィンドウ（高さを自動にして、ボタンが入る隙間を作る） */
