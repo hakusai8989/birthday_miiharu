@@ -293,19 +293,7 @@
         max-width: 600px;
       }
 
-      /* 写真ギャラリーの枠 */
-      .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        padding: 10px;
-      }
-      .gallery img {
-        width: 45%; /* スマホで2列になるサイズ */
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
+      .gallery img
 
       /* メッセージ */
       .final-message {
@@ -370,13 +358,27 @@
       <div class="final-message">Happy Birthday!!</div>
 
       <div class="gallery">
-        <img src="photo1.jpg" alt="思い出1" />
-        <img src="photo2.jpg" alt="思い出2" />
-        <img src="photo3.jpg" alt="思い出3" />
-        <img src="photo4.jpg" alt="思い出4" />
-      </div>
-    </div>
+  
+  <div class="photo-card">
+    <img src="photo1.jpg" alt="思い出1">
+    <p class="photo-name">小学生-卒業編-</p> </div>
 
+  <div class="photo-card">
+    <img src="photo2.jpg" alt="思い出2">
+    <p class="photo-name">中学-卒業編-</p>
+  </div>
+
+  <div class="photo-card">
+    <img src="photo3.jpg" alt="思い出3">
+    <p class="photo-name">お気に入り一枚</p>
+  </div>
+  
+  <div class="photo-card">
+    <img src="photo4.jpg" alt="思い出4">
+    <p class="photo-name">最近のクリスマス💛</p>
+  </div>
+
+</div>
     <script>
       // ★シナリオデータ（audio: 'ファイル名' を追加）
       const scenario = [
