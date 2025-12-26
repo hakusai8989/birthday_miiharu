@@ -45,22 +45,29 @@
       }
 
       /* 会話ウィンドウ（セリフ枠） */
+      /* 会話ウィンドウ（高さを自動にして、ボタンが入る隙間を作る） */
       #message-box {
         position: absolute;
         bottom: 20px;
         left: 5%;
         width: 90%;
-        height: 150px;
-        background: rgba(0, 0, 0, 0.8); /* 半透明の黒 */
+        height: auto; /* ★高さを自動調整に変更 */
+        min-height: 150px; /* 最低でもこの高さは確保 */
+        background: rgba(0, 0, 0, 0.8);
         border: 2px solid #fff;
         border-radius: 10px;
         box-sizing: border-box;
-        padding: 20px;
+        padding: 30px 20px 20px; /* 上の余白を少し増やしました */
         color: white;
-        cursor: pointer; /* クリックできるよ感を出す */
+        cursor: pointer;
         z-index: 10;
-      }
 
+        /* Flexboxで中身を縦並びにする設定 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* 上下中央寄せ */
+        gap: 15px; /* テキストとボタンの間隔 */
+      }
       /* 名前表示欄 */
       #name-label {
         position: absolute;
@@ -98,16 +105,20 @@
         }
       }
 
-      /* クリア後のメニューボタン枠 */
+      /* クリア後のメニューボタン枠（絶対配置をやめて、自然に並べる） */
       #end-menu {
         display: none; /* 最初は隠す */
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: static; /* ★ここ重要：自由に配置させる */
+        transform: none; /* 中央配置の計算を解除 */
         text-align: center;
         width: 100%;
-        z-index: 20;
+        margin-top: 10px;
+      }
+
+      /* ついでに：キャラ画像の背景色がピンクになって透過されない問題を修正 */
+      #character-img {
+        /* ...他の設定はそのまま... */
+        background-color: transparent; /* ★ここを #ffcccc から transparent に変更 */
       }
 
       /* ボタンのデザイン */
@@ -220,21 +231,27 @@
   <body>
     <div id="game-screen">
       <img id="character-img" src="mee.jpg" alt="立ち絵" />
-      <div id="message-box" onclick="nextScenario()">
-        <div id="end-menu">
-          <button class="menu-btn" onclick="showAlbum()">
-            📖 思い出アルバムを見る
-          </button>
+<div id="message-box" onclick="nextScenario()">
+  <div id="name-label">はる</div>
+  
+  <div id="text-content">（クリックしてスタート）</div>
 
-          <button class="menu-btn" onclick="alert('動画は準備中！')">
-            🎬 スペシャル動画を見る
-          </button>
-        </div>
-        <div id="name-label">はる</div>
-        <div id="text-content">（クリックしてスタート）</div>
-        <div id="next-cursor">▼</div>
-      </div>
-    </div>
+  <div id="end-menu">
+    <button class="menu-btn" onclick="showAlbum(); event.stopPropagation();">
+      📖 思い出アルバムを見る
+    </button>
+
+    <button class="menu-btn" onclick="alert('動画は準備中！'); event.stopPropagation();">
+      🎬 スペシャル動画を見る
+    </button>
+    
+    <button class="menu-btn" onclick="playSpecialVoice(); event.stopPropagation();">
+      🔊 ボイスを聞く
+    </button>
+  </div>
+
+  <div id="next-cursor">▼</div>
+</div>
 
     <div id="album-screen">
       <div class="main-content">
@@ -262,7 +279,7 @@
         {
           name: "俺", // あなたの名前
           text: "誕生日おめでとう！！！！",
-          audio: "voice1.mp3", // ★ここでファイル名を指定！
+          audio: "voice1.ma4", // ★ここでファイル名を指定！
         },
         {
           name: "はる",
@@ -272,7 +289,7 @@
         {
           name: "俺",
           text: "日頃の感謝を込めて作ったんだ。楽しんでくれると嬉しい。",
-          audio: "voice2.mp3", // ★別の音声ファイル
+          audio: "voice2.ma4", // ★別の音声ファイル
         },
         {
           name: "はる",
@@ -329,6 +346,25 @@
         // BGMを止める
         if (currentAudio) currentAudio.pause();
       }
+      // --- JavaScriptの追加箇所 ---
+
+// ★追加：ボイスを聞くボタンの処理
+function playSpecialVoice() {
+  // 再生したい音声ファイル名を指定
+  const voiceFile = "voice_special.ma4"; 
+  
+  // 既存の音声が流れていたら止める
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  
+  // 再生
+  currentAudio = new Audio(voiceFile);
+  currentAudio.play();
+  
+  alert("スペシャルボイスを再生します！（音声ファイルをセットしてね）");
+}
     </script>
   </body>
 </html>
