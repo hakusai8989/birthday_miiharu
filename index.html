@@ -29,7 +29,7 @@
         background-position: center;
       }
 
-      /* キャラクター（親友）の立ち絵 */
+      /* キャラクター（俺）の立ち絵 */
       #character-img {
         position: absolute;
         bottom: 0;
@@ -98,59 +98,138 @@
         }
       }
 
+      /* クリア後のメニューボタン枠 */
+      #end-menu {
+        display: none; /* 最初は隠す */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+        z-index: 20;
+      }
+
+      /* ボタンのデザイン */
+      .menu-btn {
+        display: block;
+        width: 80%;
+        max-width: 300px;
+        margin: 15px auto;
+        padding: 15px;
+        background: #ff69b4; /* ピンク */
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border: 2px solid #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        text-decoration: none; /* リンクの下線を消す */
+        box-shadow: 0 4px 0 #db4c97; /* 立体感 */
+        transition: transform 0.1s;
+      }
+
+      .menu-btn:active {
+        transform: translateY(4px); /* 押した時に凹む */
+        box-shadow: none;
+      }
+
       /* --- ここから追加 --- */
+      /* クリア後のメニューボタン枠 */
+      #end-menu {
+        display: none; /* 最初は隠す */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+        z-index: 20;
+      }
 
-/* アルバム画面（最初は隠しておく） */
-#album-screen {
-    display: none; /* ここが重要 */
-    width: 100%;
-    height: 100%;
-    overflow-y: auto; /* スクロールできるようにする */
-    background-color: #fff0f5;
-    text-align: center;
-    padding-bottom: 50px;
-}
+      /* ボタンのデザイン */
+      .menu-btn {
+        display: block;
+        width: 80%;
+        max-width: 300px;
+        margin: 15px auto;
+        padding: 15px;
+        background: #ff69b4; /* ピンク */
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border: 2px solid #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        text-decoration: none; /* リンクの下線を消す */
+        box-shadow: 0 4px 0 #db4c97; /* 立体感 */
+        transition: transform 0.1s;
+      }
 
-/* メインの動画・画像の枠 */
-.main-content {
-    width: 100%;
-    background-color: #000;
-    margin-bottom: 20px;
-}
-.main-content video, .main-content img {
-    width: 100%;
-    max-width: 600px;
-}
+      .menu-btn:active {
+        transform: translateY(4px); /* 押した時に凹む */
+        box-shadow: none;
+      }
 
-/* 写真ギャラリーの枠 */
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
-}
-.gallery img {
-    width: 45%; /* スマホで2列になるサイズ */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+      /* アルバム画面（最初は隠しておく） */
+      #album-screen {
+        display: none; /* ここが重要 */
+        width: 100%;
+        height: 100%;
+        overflow-y: auto; /* スクロールできるようにする */
+        background-color: #fff0f5;
+        text-align: center;
+        padding-bottom: 50px;
+      }
 
-/* メッセージ */
-.final-message {
-    font-size: 20px;
-    color: #ff69b4;
-    font-weight: bold;
-    margin: 20px 0;
-}
+      /* メインの動画・画像の枠 */
+      .main-content {
+        width: 100%;
+        background-color: #000;
+        margin-bottom: 20px;
+      }
+      .main-content video,
+      .main-content img {
+        width: 100%;
+        max-width: 600px;
+      }
 
+      /* 写真ギャラリーの枠 */
+      .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+      }
+      .gallery img {
+        width: 45%; /* スマホで2列になるサイズ */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* メッセージ */
+      .final-message {
+        font-size: 20px;
+        color: #ff69b4;
+        font-weight: bold;
+        margin: 20px 0;
+      }
     </style>
-
   </head>
   <body>
     <div id="game-screen">
-      <div id="character-img"></div>
+      <img id="character-img" src="mee.jpg" alt="立ち絵" />
       <div id="message-box" onclick="nextScenario()">
+        <div id="end-menu">
+          <button class="menu-btn" onclick="showAlbum()">
+            📖 思い出アルバムを見る
+          </button>
+
+          <button class="menu-btn" onclick="alert('動画は準備中！')">
+            🎬 スペシャル動画を見る
+          </button>
+        </div>
         <div id="name-label">はる</div>
         <div id="text-content">（クリックしてスタート）</div>
         <div id="next-cursor">▼</div>
@@ -158,19 +237,19 @@
     </div>
 
     <div id="album-screen">
-    <div class="main-content">
-        <img src="best-photo.jpg" alt="最高の瞬間">
-    </div>
+      <div class="main-content">
+        <img src="best-photo.jpg" alt="最高の瞬間" />
+      </div>
 
-    <div class="final-message">Happy Birthday!!</div>
+      <div class="final-message">Happy Birthday!!</div>
 
-    <div class="gallery">
-        <img src="photo1.jpg" alt="思い出1">
-        <img src="photo2.jpg" alt="思い出2">
-        <img src="photo3.jpg" alt="思い出3">
-        <img src="photo4.jpg" alt="思い出4">
+      <div class="gallery">
+        <img src="photo1.jpg" alt="思い出1" />
+        <img src="photo2.jpg" alt="思い出2" />
+        <img src="photo3.jpg" alt="思い出3" />
+        <img src="photo4.jpg" alt="思い出4" />
+      </div>
     </div>
-</div>
 
     <script>
       // ★シナリオデータ（audio: 'ファイル名' を追加）
@@ -233,16 +312,23 @@
 
           currentIndex++;
         } else {
-          /// ゲーム画面を隠して、アルバム画面を出す！
-    document.getElementById('game-screen').style.display = 'none';
-    document.getElementById('album-screen').style.display = 'block';
-    
-    // もしBGMを止めたければこれを入れる
-    if(currentAudio) currentAudio.pause();
+          // 1. シナリオが終わったら、まずボタンを表示する！
+          textContent.innerHTML =
+            "Happy Birthday!!<br>（特典が解放されたよ！）";
+          document.getElementById("next-cursor").style.display = "none"; // ▼を消す
+          document.getElementById("end-menu").style.display = "block"; // ボタンを出す
         }
+      } // ← nextScenarioの閉じカッコ
+
+      // ★新しく追加する関数：ボタンを押した時の動き
+      function showAlbum() {
+        // ゲーム画面を消して、アルバム画面を出す
+        document.getElementById("game-screen").style.display = "none";
+        document.getElementById("album-screen").style.display = "block";
+
+        // BGMを止める
+        if (currentAudio) currentAudio.pause();
       }
     </script>
   </body>
 </html>
-
-
