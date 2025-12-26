@@ -281,6 +281,40 @@
         padding-bottom: 50px;
       }
 
+
+      /* --- CSS追加：動画画面のデザイン --- */
+#video-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* 背景は黒っぽく */
+  z-index: 30;
+  text-align: center;
+  
+  /* 中身を中央揃え */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-box {
+  width: 90%;
+  max-width: 600px;
+  border: 4px solid #ff69b4; /* ピンクの枠線 */
+  border-radius: 10px;
+  overflow: hidden; /* 角丸からはみ出さないように */
+  margin-bottom: 20px;
+  background: black;
+}
+
+.video-box video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
       /* メインの動画・画像の枠 */
       .main-content {
         width: 100%;
@@ -343,9 +377,9 @@
             📖 思い出アルバムを見る
           </button>
 
-          <button class="menu-btn" onclick="alert('動画は準備中！')">
-            🎬 スペシャル動画を見る
-          </button>
+  <button class="menu-btn" onclick="showVideo()">
+  🎬 スペシャル動画を見る
+</button>
         </div>
       </div>
     </div>
@@ -378,6 +412,19 @@
     <p class="photo-name">最近のクリスマス💛</p>
   </div>
 
+</div>
+<div id="video-screen" style="display: none;">
+  <h2 style="color: #ff69b4; margin-top: 30px;">🎬 スペシャルムービー</h2>
+  
+<div class="video-box">
+  
+  <iframe src="https://drive.google.com/file/d/1GsA50SaZcDRb0N_JncIYfxLIq1xDTl7Z/view?usp=sharing" width="100" height="315" allow="autoplay"></iframe>
+
+</div>
+
+  <button class="menu-btn" onclick="backToMenuFromVideo()">
+    ↩ メニューに戻る
+  </button>
 </div>
     <script>
       // ★シナリオデータ（audio: 'ファイル名' を追加）
@@ -513,6 +560,29 @@
           currentAudio.currentTime = 0;
         }
       }
+
+      // --- JS追加：動画画面の操作 ---
+
+// 動画画面を表示する
+function showVideo() {
+  // ホーム画面を隠して、動画画面を出す
+  document.getElementById("home-screen").style.display = "none";
+  document.getElementById("video-screen").style.display = "flex"; // CSSでflexにしてるので
+}
+
+// 動画画面からメニューに戻る
+function backToMenuFromVideo() {
+  const video = document.getElementById("my-video");
+  
+  // 動画を一時停止して、最初に戻す
+  video.pause();
+  video.currentTime = 0;
+
+  // 画面を切り替え
+  document.getElementById("video-screen").style.display = "none";
+  document.getElementById("home-screen").style.display = "flex";
+}
+      
     </script>
   </body>
 </html>
