@@ -42,6 +42,7 @@
         height: auto;
         background-color: transparent;
         border-radius: 20px 20px 0 0;
+        mix-blend-mode: screen;
       }
 
       /* 会話ウィンドウ（セリフ枠） */
@@ -230,7 +231,7 @@
   </head>
   <body>
     <div id="game-screen">
-      <img id="character-img" src="mee.png" alt="立ち絵" />
+      <img id="character-img" src="mee.jpg" alt="立ち絵" />
 <div id="message-box" onclick="nextScenario()">
   <div id="name-label">はる</div>
   
@@ -279,7 +280,7 @@
         {
           name: "俺", // あなたの名前
           text: "誕生日おめでとう！！！！",
-          audio: "voice1.m4a", // ★ここでファイル名を指定！
+          audio: "voice1.ma4", // ★ここでファイル名を指定！
         },
         {
           name: "はる",
@@ -289,7 +290,7 @@
         {
           name: "俺",
           text: "日頃の感謝を込めて作ったんだ。楽しんでくれると嬉しい。",
-          audio: "voice2.m4a", // ★別の音声ファイル
+          audio: "voice2.ma4", // ★別の音声ファイル
         },
         {
           name: "はる",
@@ -368,5 +369,3 @@ function playSpecialVoice() {
     </script>
   </body>
 </html>
-
-
