@@ -27,18 +27,31 @@
         background-color: #ffe6e6;
       }
 
-      /* 立ち絵 */
+      /* --- CSS修正：スマホで大きく、位置も修正 --- */
       #character-img {
         position: absolute;
-        bottom: -5%;
+
+        /* 位置の修正：マイナスをなくして、画面の下端にピタッと合わせる */
+        bottom: 0;
+
         left: 50%;
         transform: translateX(-50%);
-        width: 80%;
+
+        /* --- サイズの修正 --- */
+
+        /* 「横幅」指定をやめて、「高さ」基準でデカくする！ */
+        height: 90vh; /* 画面の縦幅の90%まで引き伸ばす */
+        width: auto; /* 横幅はなりゆき（勝手にバランスとる） */
+
+        /* 制限解除 */
         max-width: none;
         max-height: none;
+
+        /* その他はそのまま */
         display: block;
         background-color: transparent;
         pointer-events: none;
+        z-index: 1;
       }
 
       /* スキップボタン */
